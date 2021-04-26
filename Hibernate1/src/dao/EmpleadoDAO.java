@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+
 import pojos.Empleado;
 
 public class EmpleadoDAO {
@@ -13,7 +14,16 @@ public class EmpleadoDAO {
         List<Empleado> listaEmpleados = s.createQuery(hQuery, Empleado.class).list();
         return listaEmpleados;
     }
-
+	//Devuelve una lista de empleados pertenecientes a X departamento
+	public static List<Empleado> getXEmpleados(Session s, int codDepartamento) {
+		  String hQuery = " from Empleado e " +
+                  " where e.codDepartamento = :codDepartamento";
+		  List<Empleado> e = s.createQuery(hQuery, Empleado.class)
+                   .setParameter("clientId", codDepartamento)
+                   .list();
+		  return e;
+    }
+	
     public static Empleado getEmpleado(Session s, int id) {
         // s.get(Empleado.class, id);
         Empleado e = s.get(Empleado.class, id);
